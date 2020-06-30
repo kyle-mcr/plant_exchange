@@ -24,12 +24,21 @@
                 <label>Password (Again)</label>
                 <input autocomplete="on" name="confirmation" type="password" class="form-control"placeholder="Password (Again)">
             </div>
-            <button type="submit" class="btn btn-success col-12">Register</button>
+            <button id="buttons" type="submit" class="btn btn-success col-12">Register</button>
         </form>
         {% if message %}
             <br>
             <h5 id="message" class="text-center">{{ message }}</h5>
         {% endif %}
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text text-center">
+                    If you already have an account,<br>
+                    please <a href="{% url 'login' %}">Login</a> on our website.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 

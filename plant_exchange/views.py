@@ -2,17 +2,60 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from .models import Plant
 from django.urls import reverse
+import re
+
+# pylint: disable=no-member
 
 def index(request):
 
     if not request.user.is_authenticated:
-        return render(request, "login.html", {"message": None})
+        return redirect('login')
+
     context = {
-        "user": request.user
+    'plants' : Plant.objects.all().order_by('-created_at')
     }
 
-    return render(request, "user.html", context)
+    return render(request, "index.html", context)
+
+def add(request):
+    if request.method == 'GET':
+        return render(request, 'add.html', {"message": None})
+
+    user = request.user
+    print(user)
+    title = request.POST['title']
+    plant_type = request.POST['plant_type']
+    plant_shape = request.POST['plant_shape']
+
+    if not title:
+        return render(request, 'add.html', {"message": "Enter a title."})
+    elif len(title) < 4:
+        return render(request, 'add.html', {"message": "Title should be longer than 4 characters."})
+    if not plant_type:
+        return render(request, 'add.html', {"message": "Enter a plant type i.e. indoor or outdoor."})
+    elif len(plant_type) < 4:
+        return render(request, 'add.html', {"message": "Plant type should be longer than 4 characters."})
+    if not plant_shape:
+        return render(request, 'add.html', {"message": "Enter a plant shape i.e seed cutting, full plant, etc.."})
+    elif len(plant_shape) < 4:
+        return render(request, 'add.html', {"message": "Username should be longer than 4 characters."})
+    else:
+        try:
+            Plant.objects.create(title=title, plant_type=plant_type, plant_shape=plant_shape, uploader=user)
+        except:
+            return render(request, 'add.html', {"message": "Plant addition failed."})
+    return HttpResponseRedirect(reverse('index'))
+
+
+def info(request):
+    context = {
+        'plant': Plant.objects.get(Plant.id),
+    }
+    return render(request, 'info.html', context)
+
+
 
 def login_view(request):
     if request.user.is_authenticated:
