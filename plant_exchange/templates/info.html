@@ -6,8 +6,13 @@
     {% endblock %}
     
     {% block body %}
-<div id="info_container">
+    <div class="jumbotron">
+        <h1 class="display-4">{{plant.plant_type}} {{plant.title}}</h1>
+        <p class="lead">{{plant.description}}</p>
+        <hr class="my-4">
+        <p>{{plant.plant_shape}}</p>
+        <p>Posted on {{plant.created_at}}</p>
+        <a class="btn btn-success btn-lg" href="/" role="button">Go Back</a>
+    </div>
 
-    
-</div>
     {% endblock %}

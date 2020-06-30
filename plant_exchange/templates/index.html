@@ -7,7 +7,7 @@
     
     {% block body %}
         <h2 id="listings">Listings</h2>
-    <table style="width:90%">
+    <table style="width:100%">
         
         <tr>
           <th>Name</th>
@@ -17,7 +17,7 @@
         </tr>
         {% for plant in plants %}
         <tr>
-          <td>{{plant.title}}</td>
+          <td><a id="listing_link" href="info/{{plant.id}}">{{plant.title}}</a></td>
           <td>{{plant.plant_type}}</td>
           <td>{{plant.plant_shape}}</td>
           <td>{{plant.created_at}}</td>

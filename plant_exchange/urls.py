@@ -9,5 +9,6 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("add", views.add, name="add"),
     path("info/<int:id>", views.info, name="info"),
+    path("faq", views.faq, name="faq"),
 
 ]

@@ -26,35 +26,43 @@ def add(request):
     user = request.user
     print(user)
     title = request.POST['title']
+    description = request.POST['description']
     plant_type = request.POST['plant_type']
     plant_shape = request.POST['plant_shape']
 
     if not title:
         return render(request, 'add.html', {"message": "Enter a title."})
-    elif len(title) < 4:
-        return render(request, 'add.html', {"message": "Title should be longer than 4 characters."})
+    elif len(title) < 3:
+        return render(request, 'add.html', {"message": "Title should be longer than 3 characters."})
+    elif not description:
+        return render(request, 'add.html', {"message": "Enter a description."})
+    elif len(title) < 10:
+        return render(request, 'add.html', {"message": "Description should be longer than 10 characters."})
     if not plant_type:
         return render(request, 'add.html', {"message": "Enter a plant type i.e. indoor or outdoor."})
-    elif len(plant_type) < 4:
-        return render(request, 'add.html', {"message": "Plant type should be longer than 4 characters."})
+    elif len(plant_type) < 3:
+        return render(request, 'add.html', {"message": "Plant type should be longer than 3 characters."})
     if not plant_shape:
         return render(request, 'add.html', {"message": "Enter a plant shape i.e seed cutting, full plant, etc.."})
     elif len(plant_shape) < 4:
         return render(request, 'add.html', {"message": "Username should be longer than 4 characters."})
     else:
         try:
-            Plant.objects.create(title=title, plant_type=plant_type, plant_shape=plant_shape, uploader=user)
+            Plant.objects.create(title=title, description=description, plant_type=plant_type, plant_shape=plant_shape, uploader=user)
         except:
             return render(request, 'add.html', {"message": "Plant addition failed."})
     return HttpResponseRedirect(reverse('index'))
 
 
-def info(request):
+def info(request, id):
     context = {
-        'plant': Plant.objects.get(Plant.id),
+        'plant': Plant.objects.get(pk = id),
     }
     return render(request, 'info.html', context)
 
+def faq(request):
+    if request.method == 'GET':
+        return render(request, 'faq.html', {"message": None})
 
 
 def login_view(request):
@@ -70,8 +78,8 @@ def login_view(request):
     # Server-side form validation
     if not username:
         return render(request, 'login.html', {"message": "Enter your username."})
-    elif len(username) < 4:
-        return render(request, 'login.html', {"message": "Username should be longer than 4 characters."})
+    elif len(username) < 3:
+        return render(request, 'login.html', {"message": "Username should be longer than 3 characters."})
     elif not password:
         return render(request, 'login.html', {"message": "Type your password."})
     else:
@@ -94,8 +102,8 @@ def register_view(request):
     # Server-side form validation
     if not username:
         return render(request, 'register.html', {"message": "Enter your username."})
-    elif len(username) < 4:
-        return render(request, 'register.html', {"message": "Username should be longer than 4 characters."})
+    elif len(username) < 3:
+        return render(request, 'register.html', {"message": "Username should be longer than 3 characters."})
     elif not email:
         return render(request, 'register.html', {"message": "No Email."})
     # Email validation required.

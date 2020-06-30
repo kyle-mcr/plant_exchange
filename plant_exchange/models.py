@@ -7,6 +7,7 @@ from datetime import date
 
 class Plant(models.Model):
     title = models.CharField(max_length=50)
+    description = models.CharField(max_length=250, default="This is a succulent")
     plant_type = models.CharField(max_length = 30)
     plant_shape = models.CharField(max_length = 30)
     uploader = models.ForeignKey(User,on_delete=models.CASCADE, related_name="plant_uploader")
