@@ -27,12 +27,12 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a id="link_left" class="nav-item nav-link" href="/">Listings</a>
+              <a id="link_left" class="nav-item nav-link" href="/mylistings">My Listings</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
                 <a id="link" class="nav-item nav-link" href="/add">Add a Listing</a>
-                <a id="link" class="nav-item nav-link" href="/messages">Messages</a>
                 <a id="link" class="nav-item nav-link" href="/faq">FAQ</a>
                 <a id="logout" class="nav-item nav-link" href="/logout">Log out</a>
               {% else %}

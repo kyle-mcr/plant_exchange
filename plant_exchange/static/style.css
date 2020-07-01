@@ -7,7 +7,7 @@ body {
   background-attachment: fixed;
 }
 #container {
-  margin-top: 8%;
+  margin-top: 4%;
   background-color: rgba(116, 115, 115, 0.616);
   border-radius: 2%;
   padding-bottom: 1%;
@@ -99,11 +99,14 @@ body {
   text-decoration: underline;
   text-decoration-color: rgb(49, 172, 0);
 }
-
-table {
+#listings_container{
+    height:600px;
+    overflow-x: hidden; 
+    overflow-y: auto; 
+}
+#listings_table{
   font-family: arial, sans-serif;
   border-collapse: collapse;
-
   color:white;
   background-color: rgba(128, 128, 128, 0.733);
 }
@@ -114,8 +117,49 @@ th {
   text-align: left;
   padding: 8px;
 }
+th{
+    font-size: 3vh;
+}
 
 tr:nth-child(even) {
   background-color: #ddddddb7;
   color:black;
+}
+
+#images{
+    height: 90px;
+    width:10%;
+}
+
+.img_size{
+    height:100%;
+}
+.img_info_size{
+    width:30%
+}
+
+td{
+    width:10%;
+}
+
+.jumbotron{
+    padding: 1rem 2rem;
+    width: 50%;
+}
+
+#faq_contain{
+    width: 80%;
+    margin-left:10%;
+}
+
+#form_table{
+    background-color: #b8b8b8;
+}
+#icon{
+    font-size: 3vh;
+}
+
+#mail{
+    font-size: 3vh;
+    margin-left: 1%;
 }

@@ -18,14 +18,21 @@
           <th>Created</th>
         </tr>
         {% for plant in plants %}
+        {% if plant.uploader.id == user.id %}
         <tr>
           <td id="images"><a id="listing_link" href="info/{{plant.id}}"><img src="{{ plant.display_picture.url }}" class="img_size"/> </a></td>
           <td><a id="listing_link" href="info/{{plant.id}}">{{plant.title}}</a></td>
           <td>{{plant.plant_type}} plant</td>
           <td>{{plant.plant_shape}}</td>
           <td>{{plant.created_at}}</td>
+          <td>
+            <a class="btn btn-success btn-sm"href="info/{{plant.id}}">View</a>
+            <a onclick="return confirm('Are you sure you want to delete this?')" id="delete" class="btn btn-danger btn-sm" href="delete/{{plant.id}}">Delete</a>
+        </td>
         </tr>
+        {% endif %}
         {% endfor %}
+       
       </table>
 </div>
     {% endblock %}

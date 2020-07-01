@@ -1,3 +1,4 @@
+
 {% extends "layout.html" %}
     
 {% block title %}
@@ -8,24 +9,15 @@ Add a new Listing
 <div class="row justify-content-center">
     <div id ="container" class="col-lg-6 col-sm-10">
         <h1 class="text-center">Add a new plant listing</h1>
-        <form class="log_reg" action="{% url 'add' %}", method="POST">
-        {% csrf_token %}
-            <div class="form-group">
-                <label>Title</label>
-                <input autofocus autocomplete="off" type="text" name="title" class="form-control" placeholder="Title">
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <input autocomplete="off" name="description" type="text" class="form-control"placeholder="Description">
-            </div>
-            <div class="form-group">
-                <label>Plant Type</label>
-                <input autocomplete="off" name="plant_type" type="text" class="form-control"placeholder="Plant Type i.e. Indoor or Outdoor">
-            </div>
-            <div class="form-group">
-                <label>Plant Form</label>
-                <input autocomplete="off" name="plant_shape" type="text" class="form-control"placeholder="Form i.e. Cutting, seed, or full plant?">
-            </div>
+        <center>     
+                <hr class="my-4">
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- Very Important csrf Token -->
+                    {% csrf_token %}
+                    <table id ="form_table">
+                        {{ form.as_table }}
+                    </table>
+        </center>
             <button id="buttons" type="submit" value="Create" class="btn btn-success col-12">Add</button>
         </form>
         {% if message %}

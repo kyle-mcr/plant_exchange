@@ -4,7 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Plant
 from django.urls import reverse
+from .forms import PlantForm
 import re
+
+IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
 # pylint: disable=no-member
 
@@ -19,6 +22,41 @@ def index(request):
 
     return render(request, "index.html", context)
 
+def mylistings(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    context = {
+    'plants' : Plant.objects.all().order_by('-created_at')
+    }
+
+    return render(request, "mylistings.html", context)
+
+
+def delete(request, id):
+    delete = Plant.objects.get(pk = id)
+    delete.delete()
+    return redirect('mylistings')
+
+
+def create_profile(request):
+    form = PlantForm()
+    if request.method == 'POST':
+        form = PlantForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_pr = form.save(commit=False)
+            user = request.user
+            user_pr.uploader = user
+            user_pr.display_picture = request.FILES['display_picture']
+            file_type = user_pr.display_picture.url.split('.')[-1]
+            file_type = file_type.lower()
+            if file_type not in IMAGE_FILE_TYPES:
+                return render(request, 'error.html')
+            user_pr.save()
+            return HttpResponseRedirect(reverse('index'))
+    context = {"form": form,}
+    return render(request, 'add.html', context)
+
 def add(request):
     if request.method == 'GET':
         return render(request, 'add.html', {"message": None})
@@ -26,6 +64,7 @@ def add(request):
     user = request.user
     print(user)
     title = request.POST['title']
+    document = request.File['document']
     description = request.POST['description']
     plant_type = request.POST['plant_type']
     plant_shape = request.POST['plant_shape']
@@ -48,7 +87,7 @@ def add(request):
         return render(request, 'add.html', {"message": "Username should be longer than 4 characters."})
     else:
         try:
-            Plant.objects.create(title=title, description=description, plant_type=plant_type, plant_shape=plant_shape, uploader=user)
+            Plant.objects.create(title=title, document=document, description=description, plant_type=plant_type, plant_shape=plant_shape, uploader=user)
         except:
             return render(request, 'add.html', {"message": "Plant addition failed."})
     return HttpResponseRedirect(reverse('index'))
